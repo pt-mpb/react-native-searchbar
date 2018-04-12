@@ -42,6 +42,7 @@ export default class Search extends Component {
     hideBack: PropTypes.bool,
     hideX: PropTypes.bool,
     iOSPadding: PropTypes.bool,
+    iOSHideShadow: PropTypes.bool,
     clearOnShow: PropTypes.bool,
     clearOnHide: PropTypes.bool,
     focusOnLayout: PropTypes.bool,
@@ -67,6 +68,7 @@ export default class Search extends Component {
     hideBack: false,
     hideX: false,
     iOSPadding: true,
+    iOSHideShadow: false,
     clearOnShow: false,
     clearOnHide: true,
     focusOnLayout: true,
@@ -193,6 +195,7 @@ export default class Search extends Component {
       hideBack,
       hideX,
       iOSPadding,
+      iOSHideShadow,
       onSubmitEditing,
       onFocus,
       focusOnLayout,
@@ -206,7 +209,8 @@ export default class Search extends Component {
       backCloseSize
     } = this.props;
     return (
-      <Animated.View style={[styles.container, { top: this.state.top }]}>
+      <Animated.View style={[styles.container, { top: this.state.top,
+      shadowOpacity: iOSHideShadow ? 0 : 0.7}]}>
         {
         this.state.show &&
         <View style={[styles.navWrapper, { backgroundColor }]} >
