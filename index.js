@@ -24,6 +24,7 @@ export default class Search extends Component {
     handleResults: PropTypes.func,
     onSubmitEditing: PropTypes.func,
     onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     onHide: PropTypes.func,
     onBack: PropTypes.func,
     backButton: PropTypes.object,
@@ -42,6 +43,7 @@ export default class Search extends Component {
     hideBack: PropTypes.bool,
     hideX: PropTypes.bool,
     iOSPadding: PropTypes.bool,
+    iOSHideShadow: PropTypes.bool,
     clearOnShow: PropTypes.bool,
     clearOnHide: PropTypes.bool,
     focusOnLayout: PropTypes.bool,
@@ -67,6 +69,7 @@ export default class Search extends Component {
     hideBack: false,
     hideX: false,
     iOSPadding: true,
+    iOSHideShadow: false,
     clearOnShow: false,
     clearOnHide: true,
     focusOnLayout: true,
@@ -176,6 +179,13 @@ export default class Search extends Component {
     return some(collection, (item) => this._depthFirstSearch(item, input));
   }
 
+  _handleBlur = () => {
+    const { onBlur } = this.props;
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   _clearInput = () => {
     this.setState({ input: '' });
     this._onChangeText('');
@@ -193,6 +203,7 @@ export default class Search extends Component {
       hideBack,
       hideX,
       iOSPadding,
+      iOSHideShadow,
       onSubmitEditing,
       onFocus,
       focusOnLayout,
@@ -206,7 +217,8 @@ export default class Search extends Component {
       backCloseSize
     } = this.props;
     return (
-      <Animated.View style={[styles.container, { top: this.state.top }]}>
+      <Animated.View style={[styles.container, { top: this.state.top,
+      shadowOpacity: iOSHideShadow ? 0 : 0.7}]}>
         {
         this.state.show &&
         <View style={[styles.navWrapper, { backgroundColor }]} >
@@ -254,6 +266,7 @@ export default class Search extends Component {
               onChangeText={(input) => this._onChangeText(input)}
               onSubmitEditing={() => onSubmitEditing ? onSubmitEditing() : null}
               onFocus={() => onFocus ? onFocus() : null}
+              onBlur={this._handleBlur}
               placeholder={placeholder}
               placeholderTextColor={placeholderTextColor}
               value={this.state.input}
@@ -304,6 +317,10 @@ const styles = StyleSheet.create({
   nav: {
     ...Platform.select({
         android: {
+          borderBottomColor: 'lightgray',
+          borderBottomWidth: StyleSheet.hairlineWidth,
+        },
+        ios: {
           borderBottomColor: 'lightgray',
           borderBottomWidth: StyleSheet.hairlineWidth,
         },
