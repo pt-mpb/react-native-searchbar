@@ -24,6 +24,7 @@ export default class Search extends Component {
     handleResults: PropTypes.func,
     onSubmitEditing: PropTypes.func,
     onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
     onHide: PropTypes.func,
     onBack: PropTypes.func,
     backButton: PropTypes.object,
@@ -178,6 +179,13 @@ export default class Search extends Component {
     return some(collection, (item) => this._depthFirstSearch(item, input));
   }
 
+  _handleBlur = () => {
+    const { onBlur } = this.props;
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   _clearInput = () => {
     this.setState({ input: '' });
     this._onChangeText('');
@@ -258,6 +266,7 @@ export default class Search extends Component {
               onChangeText={(input) => this._onChangeText(input)}
               onSubmitEditing={() => onSubmitEditing ? onSubmitEditing() : null}
               onFocus={() => onFocus ? onFocus() : null}
+              onBlur={this._handleBlur}
               placeholder={placeholder}
               placeholderTextColor={placeholderTextColor}
               value={this.state.input}
