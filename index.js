@@ -311,6 +311,10 @@ const styles = StyleSheet.create({
           borderBottomColor: 'lightgray',
           borderBottomWidth: StyleSheet.hairlineWidth,
         },
+        ios: {
+          borderBottomColor: 'lightgray',
+          borderBottomWidth: StyleSheet.hairlineWidth,
+        },
     }),
     flex: 1,
     flexBasis: 1,
